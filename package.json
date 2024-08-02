@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "dotenv": "^16.4.5",
+    "joi": "^17.13.3",
     "typeorm": "^0.3.20"
   }
 }
