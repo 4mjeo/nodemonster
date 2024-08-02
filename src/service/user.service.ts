@@ -125,6 +125,20 @@ export class UserService {
     };
   }
 
+  public async showUserInfo(id: string): Promise<UserInfoResobj> {
+    const user = await this.userRepository.findUserByIdentity(id);
+
+    if (!user) {
+      throw new NotFoundError("User Not Found");
+    }
+
+    return { ...user };
+  }
+
+  public async showMyInfo(user: User) {
+    return this.userRepository.getMyInfo(user);
+  }
+
   private async issuanceToken(email: string, type: string): Promise<string> {
     const user = this.userRepository.findUserByEmail(email);
     return jwt.sign(
