@@ -1,0 +1,143 @@
+import jwt from "jsonwebtoken";
+import { config } from "../config";
+import { User } from "../entity/user";
+import { UserRepository } from "../repository/user.repository";
+import {
+  UpdateInfo,
+  UserInfo,
+  UserInfoResobj,
+  UserLoginInfo,
+  UserTokenResobj,
+  UserUpdateInfo,
+} from "../shared/DataTransferObject";
+import {
+  ConflictError,
+  ForbiddenError,
+  NotFoundError,
+  UnAuthorizedError,
+} from "../shared/exception";
+import { comparePassword, generateHash } from "../utils/hash";
+import { Not } from "typeorm";
+import { compare } from "bcrypt";
+
+export class UserService {
+  constructor(private userRepository: UserRepository) {}
+
+  async getUser(
+    id: number
+  ): Promise<{ email: string; nickname: string } & UpdateInfo> {
+    const user = await this.userRepository.findUserById(id);
+    if (!user) {
+      throw new NotFoundError("User Not Found");
+    }
+    const { email, nickname, createdAt, updatedAt } = user;
+    return { email, nickname, createdAt, updatedAt };
+  }
+
+  async createUser(
+    userInfo: UserInfo
+  ): Promise<{ id: number } & UpdateInfo & UserTokenResobj> {
+    const alreadyRegisteredUser = await this.userRepository.findUserByEmail(
+      userInfo.email
+    );
+    if (alreadyRegisteredUser) {
+      throw new ConflictError();
+    }
+
+    const hashedPassword = generateHash(userInfo.password);
+
+    const userInfoToCreate = { ...userInfo, password: hashedPassword };
+    const { id, createdAt, updatedAt } = await this.userRepository.createUser(
+      userInfoToCreate
+    );
+
+    return {
+      id,
+      createdAt,
+      updatedAt,
+      access_token: await this.issuanceToken(userInfo.email, "access"),
+      refresh_token: await this.issuanceToken(userInfo.email, "refresh"),
+    };
+  }
+
+  async login({ email, password }: UserLoginInfo): Promise<UserTokenResobj> {
+    const user = await this.userRepository.findUserByEmail(email);
+
+    if (!user) {
+      throw new NotFoundError("User Not Found");
+    }
+
+    const isValid = comparePassword(user.password, password);
+    if (!isValid) {
+      throw new UnAuthorizedError();
+    }
+
+    return {
+      access_token: await this.issuanceToken(user.email, "access"),
+      refresh_token: await this.issuanceToken(user.email, "refresh"),
+    };
+  }
+
+  async updateUserInfo(
+    userUpdateInfo: UserUpdateInfo
+  ): Promise<UserUpdateInfo & UpdateInfo> {
+    const user = await this.userRepository.findUserById(userUpdateInfo.id);
+
+    console.log(user);
+    if (!user) {
+      throw new ForbiddenError();
+    } else {
+      const { id, nickname, createdAt, updatedAt } =
+        await this.userRepository.updateUserInfo(userUpdateInfo);
+      return {
+        id,
+        nickname,
+        createdAt,
+        updatedAt,
+      };
+    }
+  }
+
+  async cancelMember(id: number, password: string): Promise<void> {
+    const user = await this.userRepository.findUserById(id);
+
+    if (!user) {
+      throw new NotFoundError("User Not Found");
+    }
+
+    console.log(password, user, id);
+    const isValid = comparePassword(user.password, password);
+    if (!isValid) {
+      throw new UnAuthorizedError("Password MisMatch Error");
+    } else {
+      this.userRepository.cancelMember(id);
+    }
+  }
+
+  public async refreshToken(
+    email: string,
+    refreshToken: string
+  ): Promise<UserTokenResobj> {
+    const accessToken: string = await this.issuanceToken(email, "access");
+    return {
+      access_token: accessToken,
+      refresh_token: refreshToken,
+    };
+  }
+
+  private async issuanceToken(email: string, type: string): Promise<string> {
+    const user = this.userRepository.findUserByEmail(email);
+    return jwt.sign(
+      {
+        sub: `${email}`,
+        id: (await user).id,
+        type,
+      },
+      config.jwtSecret,
+      {
+        algorithm: "HS256",
+        expiresIn: type === "access" ? "2h" : "14d",
+      }
+    );
+  }
+}
