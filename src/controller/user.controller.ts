@@ -1,4 +1,5 @@
 import { response } from "express";
+import { REFRESH_TOKEN_COOKIE_KEY } from "../constants/auth";
 import { UserRepository } from '../repository/user.repository';
 import { UserService } from '../service/user.service';
 import { BusinessLoigc } from "../shared/BusinessLogicInterface";
@@ -61,5 +62,14 @@ export class UserController {
 
         const repponse: ShowUserInfoResobj = await this.userService.showMyInfo(user);
         return res.status(200).json(response);
+    };
+
+    public logout: BusinessLoigc = async (req, res, next) => {
+        try {
+            res.clearCookie(REFRESH_TOKEN_COOKIE_KEY);
+            return res.status(204).end();
+        } catch (err) {
+            next(err);
+        }
     };
 }
