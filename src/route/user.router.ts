@@ -2,7 +2,6 @@ import { Router } from 'express';
 import { UserController } from '../controller/user.controller';
 import { errorHandler } from '../middleware/errorHandler';
 import { verifyRefreshTokenMiddleware, verifyTokenMiddleware } from '../middleware/verifyToken';
-import { User } from '../entity/user';  
 
 const router: Router = Router();
 export const userServiceRouter = (app: Router) => {
