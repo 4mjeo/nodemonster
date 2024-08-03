@@ -1,15 +1,18 @@
-import express, { Request, Response, NextFunction } from "express";
+import 'reflect-metadata';
+import path from 'path';
+import dotenv from 'dotenv';
+import iconv from 'iconv-lite';
+import { logger } from './shared/logger';
+import { initApplication } from './loader';
 
-const app = express();
+iconv.encodingExists('foo');
 
-app.get("/", (req: Request, res: Response, next: NextFunction) => {
-  res.send("Scary nodemonster!");
-});
+dotenv.config({ path: path.join(__dirname, '../.env') });
 
-app.listen("3000", () => {
-  console.log(`
-  ################################################
-  Server listening on port: 3000
-  ################################################
-`);
+initApplication().catch(() => console.error('server start failed'));
+
+process.on('uncaughtException', (err: Error) => {
+	console.error(err);
+	logger.error('uncaughtException');
+	logger.error(err);
 });
