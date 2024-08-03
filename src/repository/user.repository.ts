@@ -56,7 +56,7 @@ export class UserRepository extends Repository<User> {
 		return newInfo;
 	}
 
-	async cancleMember(id: number): Promise<void> {
+	async cancelMember(id: number): Promise<void> {
 		await this.delete({ id });
 	}
 }
