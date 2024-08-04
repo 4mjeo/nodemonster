@@ -4,11 +4,11 @@ import { UserRepository } from '../repository/user.repository';
 import { UserService } from '../service/user.service';
 import { BusinessLoigc } from "../shared/BusinessLogicInterface";
 import {
-    ShowUserInfoResobj,
+    ShowUserInfoResObj,
     UserInfo,
-    UserInfoResobj,
+    UserInfoResObj,
     UserLoginInfo,
-    UserTokenResobj,
+    UserTokenResObj,
     UserUpdateInfo,
 } from '../shared/DataTransferObject';
 
@@ -18,14 +18,14 @@ export class UserController {
     public createUser: BusinessLoigc = async (req, res, next) => {
         const userInfoToCreate = req.body as UserInfo;
 
-        const response: UserTokenResobj = await this.userService.createUser(userInfoToCreate);
+        const response: UserTokenResObj = await this.userService.createUser(userInfoToCreate);
         return res.status(201).json(response);
     };
 
     public login: BusinessLoigc = async (req, res, next) => {
         const userInfoToLogin = req.body as UserLoginInfo;
 
-        const response: UserTokenResobj = await this.userService.login(userInfoToLogin);
+        const response: UserTokenResObj = await this.userService.login(userInfoToLogin);
         return res.status(200).json(response);
     }
 
@@ -45,7 +45,7 @@ export class UserController {
 
     public refreshToken: BusinessLoigc = async (req, res, next) => {
         const refreshToken: string = req.headers.authorization['refresh-token'] as string;
-        const response: UserTokenResobj = await this.userService.refreshToken(
+        const response: UserTokenResObj = await this.userService.refreshToken(
             req.decoded.sub,
             refreshToken.slice(7),
         );
@@ -53,14 +53,14 @@ export class UserController {
     };
 
     public showUserInfo: BusinessLoigc = async (req, res, next) => {
-        const response: UserInfoResobj = await this.userService.showUserInfo(req.params.id);
+        const response: UserInfoResObj = await this.userService.showUserInfo(req.params.id);
         return res.status(200).json(response);
     };
 
     public showMyInfo: BusinessLoigc = async (req, res, next) => {
         const user = req.decoded;
 
-        const repponse: ShowUserInfoResobj = await this.userService.showMyInfo(user);
+        const repponse: ShowUserInfoResObj = await this.userService.showMyInfo(user);
         return res.status(200).json(response);
     };
 

@@ -21,7 +21,7 @@ export class UserUpdateInfo {
     nickname: string;
 }
 
-export class UserInfoResobj {
+export class UserInfoResObj {
     id: number;
     email: string;
     nickname: string;
@@ -29,13 +29,13 @@ export class UserInfoResobj {
     updatedAt: Date;
 }
 
-export class ShowUserInfoResobj {
+export class ShowUserInfoResObj {
     id: number;
     email: string;
     nickname: string;
 }
 
-export class UserTokenResobj {
+export class UserTokenResObj {
     access_token: string;
     refresh_token: string;
 }
