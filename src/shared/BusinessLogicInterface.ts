@@ -8,8 +8,8 @@ interface CustomResponse extends Response {
     [key: string]: any;
 }
 
-interface BusinessLoigc {
+interface BusinessLogic {
     (req: CustomRequest, res: CustomResponse, next: NextFunction): any;
 }
 
-export { CustomRequest, CustomResponse, NextFunction, BusinessLoigc };
+export { CustomRequest, CustomResponse, NextFunction, BusinessLogic };

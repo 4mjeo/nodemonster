@@ -1,7 +1,7 @@
-import { BusinessLoigc } from "../shared/BusinessLogicInterface";
+import { BusinessLogic } from "../shared/BusinessLogicInterface";
 import { logger } from "../shared/logger";
 
-export const errorHandler = (myFunc: BusinessLoigc): BusinessLoigc => {
+export const errorHandler = (myFunc: BusinessLogic): BusinessLogic => {
   return async (req, res, next) => {
     try {
       await myFunc(req, res, next);

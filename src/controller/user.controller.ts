@@ -2,7 +2,7 @@ import { response } from "express";
 import { REFRESH_TOKEN_COOKIE_KEY } from "../constants/auth";
 import { UserRepository } from '../repository/user.repository';
 import { UserService } from '../service/user.service';
-import { BusinessLoigc } from "../shared/BusinessLogicInterface";
+import { BusinessLogic } from "../shared/BusinessLogicInterface";
 import {
     ShowUserInfoResObj,
     UserInfo,
@@ -15,21 +15,21 @@ import {
 export class UserController {
     private userService: UserService = new UserService(UserRepository.getQueryRepository());
 
-    public createUser: BusinessLoigc = async (req, res, next) => {
+    public createUser: BusinessLogic = async (req, res, next) => {
         const userInfoToCreate = req.body as UserInfo;
 
         const response: UserTokenResObj = await this.userService.createUser(userInfoToCreate);
         return res.status(201).json(response);
     };
 
-    public login: BusinessLoigc = async (req, res, next) => {
+    public login: BusinessLogic = async (req, res, next) => {
         const userInfoToLogin = req.body as UserLoginInfo;
 
         const response: UserTokenResObj = await this.userService.login(userInfoToLogin);
         return res.status(200).json(response);
     }
 
-    public updateInfo: BusinessLoigc = async (req, res, next) => {
+    public updateInfo: BusinessLogic = async (req, res, next) => {
         const { nickname } = req.body;
         const { id } = req.decoded;
 
@@ -37,13 +37,13 @@ export class UserController {
         return res.status(200).json(response);
     };
 
-    public cancelMember: BusinessLoigc = async (req, res, next) => {
+    public cancelMember: BusinessLogic = async (req, res, next) => {
         const response = await this.userService.cancelMember(req.decoded.id, req.body.password);
     
         return res.status(204).json(response);
       };
 
-    public refreshToken: BusinessLoigc = async (req, res, next) => {
+    public refreshToken: BusinessLogic = async (req, res, next) => {
         const refreshToken: string = req.headers.authorization['refresh-token'] as string;
         const response: UserTokenResObj = await this.userService.refreshToken(
             req.decoded.sub,
@@ -52,19 +52,19 @@ export class UserController {
         return res.status(200).json(response);
     };
 
-    public showUserInfo: BusinessLoigc = async (req, res, next) => {
+    public showUserInfo: BusinessLogic = async (req, res, next) => {
         const response: UserInfoResObj = await this.userService.showUserInfo(req.params.id);
         return res.status(200).json(response);
     };
 
-    public showMyInfo: BusinessLoigc = async (req, res, next) => {
+    public showMyInfo: BusinessLogic = async (req, res, next) => {
         const user = req.decoded;
 
         const repponse: ShowUserInfoResObj = await this.userService.showMyInfo(user);
         return res.status(200).json(response);
     };
 
-    public logout: BusinessLoigc = async (req, res, next) => {
+    public logout: BusinessLogic = async (req, res, next) => {
         try {
             res.clearCookie(REFRESH_TOKEN_COOKIE_KEY);
             return res.status(204).end();
