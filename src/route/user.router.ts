@@ -5,21 +5,23 @@ import { verifyRefreshTokenMiddleware, verifyTokenMiddleware } from '../middlewa
 
 const router: Router = Router();
 export const userServiceRouter = (app: Router) => {
-    const userController: UserController = new UserController();
+	const userController: UserController = new UserController();
 
-    app.use('/user', router);
+	app.use('/user', router);
 
-    router.get('/refresh', verifyRefreshTokenMiddleware, errorHandler(userController.refreshToken));
+	router.get('/refresh', verifyRefreshTokenMiddleware, errorHandler(userController.refreshToken));
 
-    router.get('/:id', errorHandler(userController.showMyInfo));
+	router.get('/:id', errorHandler(userController.showUserInfo));
 
-    router.post('/', errorHandler(userController.createUser));
+	router.get('/', verifyTokenMiddleware, errorHandler(userController.showMyInfo));
 
-    router.post('/token', errorHandler(userController.login));
+	router.post('/', errorHandler(userController.createUser));
 
-    router.patch('/mypage', verifyTokenMiddleware, errorHandler(userController.updateInfo));
+	router.post('/token', errorHandler(userController.login));
 
-    router.delete('/logout', verifyTokenMiddleware, errorHandler(userController.logout));
+	router.patch('/mypage', verifyTokenMiddleware, errorHandler(userController.updateInfo));
 
-    router.delete('/', verifyTokenMiddleware, errorHandler(userController.cancelMember));
-}
+	router.delete('/logout', verifyTokenMiddleware, errorHandler(userController.logout));
+
+	router.delete('/', verifyTokenMiddleware, errorHandler(userController.cancelMember));
+};
