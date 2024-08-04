@@ -58,11 +58,11 @@ export class UserController {
     };
 
     public showMyInfo: BusinessLogic = async (req, res, next) => {
-        const user = req.decoded;
+		const user = req.decoded;
 
-        const repponse: ShowUserInfoResObj = await this.userService.showMyInfo(user);
-        return res.status(200).json(response);
-    };
+		const response: ShowUserInfoResObj = await this.userService.showMyInfo(user);
+		return res.status(200).json(response);
+	};
 
     public logout: BusinessLogic = async (req, res, next) => {
         try {
