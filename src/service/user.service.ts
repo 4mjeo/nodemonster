@@ -5,7 +5,7 @@ import { UserRepository } from '../repository/user.repository';
 import {
 	UpdateInfo,
 	UserInfo,
-  UserInfoResObj,
+	UserInfoResObj,
 	UserLoginInfo,
 	UserTokenResObj,
 	UserUpdateInfo,
