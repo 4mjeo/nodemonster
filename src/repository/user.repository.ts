@@ -11,7 +11,7 @@ export class UserRepository extends Repository<User> {
 	async findUserById(id: number): Promise<User> {
 		const user = await this.findOne(id);
 		return user;
-	}	
+	}
 
 	async findUserByEmail(email: string): Promise<User> {
 		const user = await this.findOne({ email });
