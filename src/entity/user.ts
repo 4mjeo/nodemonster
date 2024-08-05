@@ -7,6 +7,8 @@ import {
     OneToMany,
 } from 'typeorm';
 
+import { Post } from './post';
+
 @Entity({ name: 'user' })
 export class User {
     @PrimaryGeneratedColumn()
@@ -34,4 +36,7 @@ export class User {
         name: 'updatedAt',
     })
     updatedAt: Date
+
+    @OneToMany(() => Post, post => post.user, { cascade: true })
+	post: Post[];
 }
