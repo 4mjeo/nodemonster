@@ -52,13 +52,19 @@ export class UserController {
 	};
 
 	public refreshToken: BusinessLogic = async (req, res, next) => {
-		const refreshToken: string = req.headers.authorization['refresh-token'] as string;
-		const response: UserTokenResObj = await this.userService.refreshToken(
-			req.decoded.sub,
-			refreshToken.slice(7),
-		);
-		return res.status(200).json(response);
-	};
+        try {
+            const refreshTokenHeader = req.headers['refresh-token'] as string;
+            const refreshToken: string = refreshTokenHeader.slice(7);
+    
+            const response: UserTokenResObj = await this.userService.refreshToken(
+                req.decoded.sub,
+                refreshToken,
+            );
+            return res.status(200).json(response);
+        } catch (err) {
+            next(err);
+        }
+    };
 
 	public showUserInfo: BusinessLogic = async (req, res, next) => {
 		const response: UserInfoResObj = await this.userService.showUserInfo(req.params.id);
