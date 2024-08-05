@@ -13,3 +13,8 @@ lerna-debug.log*
 # environment variable
 .env
 .env.dev
+
+# build
+build/
+tmp/
+temp/
