@@ -1,4 +1,6 @@
 import Joi from 'joi';
+import { Post } from '../entity/post';
+import { extend } from 'dayjs';
 
 export class UserLoginInfo {
 	email: string;
@@ -42,6 +44,18 @@ export class UserTokenResObj {
 
 export class ProvideUserTokenDto {
     code: string;
+}
+
+export class PostInfo extends Post {
+	id: number;
+	title: string;
+	content: string;
+}
+
+export class PostUpdateInfo extends Post {
+	id: number;
+	title: string;
+	content: string;
 }
 
 export const ProvideUserTokenSchema: Joi.ObjectSchema<ProvideUserTokenDto> = Joi.object().keys({
