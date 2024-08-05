@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken';
 import { config } from '../config';
-import { BusinessLoigc } from '../shared/BusinessLogicInterface';
+import { BusinessLogic } from '../shared/BusinessLogicInterface';
 import { TokenPayload } from '../shared/TokenPayloadInterface';
 
-const verifyTokenOrDone: BusinessLoigc = (req, res, next) => {
+const verifyTokenOrDone: BusinessLogic = (req, res, next) => {
     if (req.headers.authorization) {
         try {
             const payload: TokenPayload = jwt.verify(

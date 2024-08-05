@@ -1,7 +1,7 @@
-import { BusinessLoigc } from "../shared/BusinessLogicInterface";
+import { BusinessLogic } from "../shared/BusinessLogicInterface";
 import { BadRequestError } from "../shared/exception";
 
-type ValidationNumberParameter = (key: string) => BusinessLoigc;
+type ValidationNumberParameter = (key: string) => BusinessLogic;
 
 const ValidationNumberParameter: ValidationNumberParameter = (key: string) => (req, res, next) => {
     const param = req.params[key];

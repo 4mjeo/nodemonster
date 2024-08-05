@@ -1,8 +1,8 @@
 import Joi from 'joi';
-import { BusinessLoigc } from '../shared/BusinessLogicInterface';
+import { BusinessLogic } from '../shared/BusinessLogicInterface';
 import { BadRequestError } from '../shared/exception';
 
-type ValidationRequest = <T>(schema: Joi.ObjectSchema<T>) => BusinessLoigc;
+type ValidationRequest = <T>(schema: Joi.ObjectSchema<T>) => BusinessLogic;
 
 const validationRequest: ValidationRequest = 
     <T>(schema: Joi.ObjectSchema<T>) => 
