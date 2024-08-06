@@ -24,6 +24,15 @@ export class Restaurant {
     @Column()
     deliveryFee: number;
 
+    @Column()   
+    address: string;
+
+    @Column()
+    phoneNum: string;
+
+    @Column()
+    introduction: string;
+
     @ManyToOne(() => User, user => user.id, { nullable: false, onDelete: 'CASCADE' })
 	@JoinColumn({ name: 'seller' })
 	user: User;
