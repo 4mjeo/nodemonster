@@ -1,7 +1,9 @@
 import { ConnectionOptions } from 'typeorm';
 import { config } from './config';
 import { User } from './entity/user';
-import { Post} from './entity/post';
+import { Post } from './entity/post';
+import { Restaurant } from './entity/restaurant';
+import { Menu } from './entity/menu';
 
 export const createOptions: ConnectionOptions = {
 	type: 'mysql',
@@ -13,7 +15,7 @@ export const createOptions: ConnectionOptions = {
 	synchronize: config.dbSynchronize,
 	logging: config.dbLogging,
 	timezone: config.dbTimezone,
-	entities: [User, Post],
+	entities: [User, Post, Restaurant, Menu],
 	dateStrings: true,
 	charset: 'utf8mb4',
 };
