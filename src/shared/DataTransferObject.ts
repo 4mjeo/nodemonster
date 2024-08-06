@@ -1,6 +1,6 @@
 import Joi from 'joi';
 import { Post } from '../entity/post';
-import { extend } from 'dayjs';
+import { Restaurant } from '../entity/restaurant';
 
 export class UserLoginInfo {
 	email: string;
@@ -56,6 +56,26 @@ export class PostUpdateInfo extends Post {
 	id: number;
 	title: string;
 	content: string;
+}
+
+export class RestaurantInfo extends Restaurant {
+	id: number;
+	restaurantName: string;
+	minOrderPrice: number;
+	deliveryFee: number;
+	address: string;
+	phoneNum: string;
+	introduction: string;
+}
+
+export class RestaurantUpdateInfo extends Restaurant {
+	id: number;
+	restaurantName: string;
+	minOrderPrice: number;
+	deliveryFee: number;
+	address: string;
+	phoneNum: string;
+	introduction: string;
 }
 
 export const ProvideUserTokenSchema: Joi.ObjectSchema<ProvideUserTokenDto> = Joi.object().keys({
