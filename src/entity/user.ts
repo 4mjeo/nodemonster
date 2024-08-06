@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 
 import { Post } from './post';
+import { Restaurant } from './restaurant';
 
 @Entity({ name: 'user' })
 export class User {
@@ -39,4 +40,7 @@ export class User {
 
     @OneToMany(() => Post, post => post.user, { cascade: true })
 	post: Post[];
+
+    @OneToMany(() => Restaurant, restaurant => restaurant.user, { cascade: true })
+    restaurant: Restaurant[];
 }
