@@ -14,7 +14,7 @@ export class PostRepository extends Repository<Post> {
 
         newPost.title = postInfo.title;
         newPost.content = postInfo.content;
-        newPost.seller = user.id;
+        newPost.writer = user.id;
 
         return this.save(newPost);
     }
@@ -23,7 +23,7 @@ export class PostRepository extends Repository<Post> {
         return this.update(
             {
                 id: postUpdateInfo.id,
-                seller: user.id,
+                writer: user.id,
             },
             {
                 title: postUpdateInfo.title,
@@ -35,7 +35,7 @@ export class PostRepository extends Repository<Post> {
     async deletePost(postId: number, user: User) {
         return this.delete({
             id: postId,
-            seller: user.id
+            writer: user.id
         });
     }
 
@@ -47,7 +47,7 @@ export class PostRepository extends Repository<Post> {
 			.addSelect('post.createdAt')
 			.addSelect('post.updatedAt')
 			.addSelect('user.nickname')
-			.addSelect('seller.nickname')
+			.addSelect('user.nickname')
 			.where('post.id = :postId', {
 				postId,
 			})

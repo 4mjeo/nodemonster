@@ -22,6 +22,9 @@ export class Post {
     @Column({ type: 'text', charset: 'utf8mb4', collation: 'utf8mb4_general_ci' })
     content: string;
 
+    @Column()
+    writer: number;
+
     @CreateDateColumn({
         type: 'timestamp',
         nullable: false,
