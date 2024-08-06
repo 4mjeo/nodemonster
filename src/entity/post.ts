@@ -16,9 +16,6 @@ export class Post {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    seller: number;
-
     @Column({ charset: 'utf8mb4', collation: 'utf8mb4_general_ci', length: 25 })
     title: string;
 
@@ -40,6 +37,6 @@ export class Post {
     updatedAt: Date;
 
     @ManyToOne(() => User, user => user.id, { nullable: false, onDelete: 'CASCADE' })
-	@JoinColumn({ name: 'seller' })
+	@JoinColumn({ name: 'writer' })
 	user: User;
 }
