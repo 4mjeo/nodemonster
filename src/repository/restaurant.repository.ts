@@ -9,7 +9,7 @@ export class RestaurantRepository extends Repository<Restaurant> {
         return getCustomRepository(RestaurantRepository);
     }
 
-    async createRestaurant(restaurantInfo: RestaurantInfo): Promise<Restaurant> {
+    async createRestaurant(restaurantInfo: RestaurantInfo, user: User): Promise<Restaurant> {
         const newRestaurant = new Restaurant();
 
         newRestaurant.restaurantName = restaurantInfo.restaurantName;
@@ -18,6 +18,7 @@ export class RestaurantRepository extends Repository<Restaurant> {
         newRestaurant.address = restaurantInfo.address;
         newRestaurant.phoneNum = restaurantInfo.phoneNum;
         newRestaurant.introduction = restaurantInfo.introduction;
+        newRestaurant.user = user;
 
         return this.save(newRestaurant);
     }
