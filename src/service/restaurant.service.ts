@@ -1,6 +1,7 @@
 import { RestaurantRepository } from '../repository/restaurant.repository';
 import { User } from '../entity/user';
 import { UserType } from '../entity/enum/usertype';
+import { Restaurant } from '../entity/restaurant'
 import { BadRequestError, ConflictError, ForbiddenError, NotFoundError } from '../shared/exception';
 import { RestaurantInfo } from '../shared/DataTransferObject';
 
@@ -9,11 +10,11 @@ export class RestaurantService {
         private restaurantRepository: RestaurantRepository
     ) {}
 
-    async createRestaurant(restaurantInfo: RestaurantInfo, user: User) {
+    async createRestaurant(restaurantInfo: RestaurantInfo, user: User): Promise<Restaurant> {
         if (user.type !== UserType.seller) {
-            throw new ForbiddenError('Only sellers can create restaurants');
+            throw new ForbiddenError('Only sellers can create restaurants.');
         }
 
-        return await this.restaurantRepository.save(restaurantInfo, user);
+        return await this.restaurantRepository.createRestaurant(restaurantInfo, user);
     }
-}
+}   

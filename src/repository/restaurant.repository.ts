@@ -10,17 +10,17 @@ export class RestaurantRepository extends Repository<Restaurant> {
     }
 
     async createRestaurant(restaurantInfo: RestaurantInfo, user: User): Promise<Restaurant> {
-        const newRestaurant = new Restaurant();
+        const newRestaurant = this.create({
+            restaurantName: restaurantInfo.restaurantName,
+            minOrderPrice: restaurantInfo.minOrderPrice,
+            deliveryFee: restaurantInfo.deliveryFee,
+            address: restaurantInfo.address,
+            phoneNum: restaurantInfo.phoneNum,
+            introduction: restaurantInfo.introduction,
+            user: user,
+        });
 
-        newRestaurant.restaurantName = restaurantInfo.restaurantName;
-        newRestaurant.minOrderPrice = restaurantInfo.minOrderPrice;
-        newRestaurant.deliveryFee = restaurantInfo.deliveryFee;
-        newRestaurant.address = restaurantInfo.address;
-        newRestaurant.phoneNum = restaurantInfo.phoneNum;
-        newRestaurant.introduction = restaurantInfo.introduction;
-        newRestaurant.user = user;
-
-        return this.save(newRestaurant);
+        return await this.save(newRestaurant);
     }
 
     async updateRestaurant(restaurantUpdateInfo: RestaurantUpdateInfo) {
