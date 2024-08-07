@@ -1,4 +1,4 @@
-export enum Role {
+export enum UserType {
     seller = 'SELLER',
     customer = 'CUSTOMER',
 }

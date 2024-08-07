@@ -9,6 +9,7 @@ import {
 
 import { Post } from './post';
 import { Restaurant } from './restaurant';
+import { Role, UserType } from './enum/usertype';
 
 @Entity({ name: 'user' })
 export class User {
@@ -23,6 +24,14 @@ export class User {
 
     @Column({ nullable: false })
     password: string;
+
+    @Column({
+        type: 'enum',
+        enum: UserType,
+        nullable: false,
+        default: UserType.customer,
+    })
+    type: UserType;
 
     @CreateDateColumn({
         type: 'timestamp',
