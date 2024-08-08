@@ -21,8 +21,17 @@ export class RestaurantService {
 
         await this.checkRestaurantExist(restaurant);
         await this.checkIsOwner(restaurant, user);
-        
+
         await this.restaurantRepository.updateRestaurant(restaurantUpdateInfo);
+    }
+
+    async deleteRestaurant(restaurantId: number, user: User): Promise<void> {
+        const restaurant = await this.restaurantRepository.findOne(restaurantId);
+
+        await this.checkRestaurantExist(restaurant);
+        await this.checkIsOwner(restaurant, user);
+
+        await this.restaurantRepository.deleteRestaurant(restaurantId);
     }
 
     async checkIsSeller(user: User) {
