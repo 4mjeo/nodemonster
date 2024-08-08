@@ -3,7 +3,7 @@ import { User } from '../entity/user';
 import { UserType } from '../entity/enum/usertype';
 import { Restaurant } from '../entity/restaurant'
 import { BadRequestError, ConflictError, ForbiddenError, NotFoundError } from '../shared/exception';
-import { RestaurantInfo } from '../shared/DataTransferObject';
+import { RestaurantInfo, RestaurantUpdateInfo } from '../shared/DataTransferObject';
 
 export class RestaurantService {
     constructor (
@@ -11,10 +11,35 @@ export class RestaurantService {
     ) {}
 
     async createRestaurant(restaurantInfo: RestaurantInfo, user: User): Promise<Restaurant> {
-        if (user.type !== UserType.seller) {
-            throw new ForbiddenError('Only sellers can create restaurants.');
-        }
+        await this.checkIsSeller(user);
 
         return await this.restaurantRepository.createRestaurant(restaurantInfo, user);
+    }
+
+    async updateRestaurant(restaurantUpdateInfo: RestaurantUpdateInfo, user: User): Promise<void> {
+        const restaurant = await this.restaurantRepository.findOne(restaurantUpdateInfo.id);
+
+        await this.checkRestaurantExist(restaurant);
+        await this.checkIsOwner(restaurant, user);
+        
+        await this.restaurantRepository.updateRestaurant(restaurantUpdateInfo);
+    }
+
+    async checkIsSeller(user: User) {
+        if (user.type !== UserType.seller) {
+            throw new ForbiddenError('Only sellers can create or update restaurants');
+        }
+    }
+
+    async checkRestaurantExist(restaurant: Restaurant) {
+        if (!restaurant) {
+            throw new NotFoundError('Restaurant not food');
+        }
+    }
+
+    async checkIsOwner(restaurant: Restaurant, user: User) {
+        if (restaurant.user.id !== user.id) {
+            throw new ForbiddenError('You can onliy update your own restaurant');
+        }
     }
 }   
