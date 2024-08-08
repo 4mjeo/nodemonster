@@ -34,6 +34,18 @@ export class RestaurantService {
         await this.restaurantRepository.deleteRestaurant(restaurantId);
     }
 
+    async getAllRestaurant(): Promise<Restaurant[]> {
+        return this.restaurantRepository.getAllRestaurant();
+    }
+
+    async getOneRestaurant(id: number): Promise<Restaurant> {
+        const restaurant = await this.restaurantRepository.getOneRestaurant(id);
+
+        await this.checkRestaurantExist(restaurant);
+
+        return restaurant;
+    }
+
     async checkIsSeller(user: User) {
         if (user.type !== UserType.seller) {
             throw new ForbiddenError('Only sellers can create or update restaurants');
