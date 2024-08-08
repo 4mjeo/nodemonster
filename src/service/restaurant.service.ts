@@ -46,6 +46,10 @@ export class RestaurantService {
         return restaurant;
     }
 
+    async searchRestaurant(searchWord: string): Promise<Restaurant[]> {
+        return this.restaurantRepository.searchRestaurant(searchWord);
+    }
+
     async checkIsSeller(user: User) {
         if (user.type !== UserType.seller) {
             throw new ForbiddenError('Only sellers can create or update restaurants');
