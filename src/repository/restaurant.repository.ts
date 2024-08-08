@@ -23,10 +23,10 @@ export class RestaurantRepository extends Repository<Restaurant> {
         return await this.save(newRestaurant);
     }
 
-    async updateRestaurant(restaurantUpdateInfo: RestaurantUpdateInfo) {
-        return this.update(
-            {
-                id: restaurantUpdateInfo.id
+    async updateRestaurant(restaurantUpdateInfo: RestaurantUpdateInfo): Promise<void> {
+        await this.update(
+            { 
+                id: restaurantUpdateInfo.id 
             },
             {
                 restaurantName: restaurantUpdateInfo.restaurantName,
@@ -35,7 +35,7 @@ export class RestaurantRepository extends Repository<Restaurant> {
                 address: restaurantUpdateInfo.address,
                 phoneNum: restaurantUpdateInfo.phoneNum,
                 introduction: restaurantUpdateInfo.introduction,
-            },
+            }
         );
     }
 
