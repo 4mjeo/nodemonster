@@ -2,7 +2,7 @@ import { RestaurantRepository } from '../repository/restaurant.repository';
 import { User } from '../entity/user';
 import { UserType } from '../entity/enum/usertype';
 import { Restaurant } from '../entity/restaurant'
-import { BadRequestError, ConflictError, ForbiddenError, NotFoundError } from '../shared/exception';
+import { ForbiddenError, NotFoundError } from '../shared/exception';
 import { RestaurantInfo, RestaurantUpdateInfo } from '../shared/DataTransferObject';
 
 export class RestaurantService {
