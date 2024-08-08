@@ -9,7 +9,7 @@ import {
 
 import { Post } from './post';
 import { Restaurant } from './restaurant';
-import { Role, UserType } from './enum/usertype';
+import { UserType } from './enum/usertype';
 
 @Entity({ name: 'user' })
 export class User {
