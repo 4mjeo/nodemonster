@@ -58,7 +58,7 @@ export class RestaurantService {
 
     async checkRestaurantExist(restaurant: Restaurant) {
         if (!restaurant) {
-            throw new NotFoundError('Restaurant not food');
+            throw new NotFoundError('Restaurant not found');
         }
     }
 
