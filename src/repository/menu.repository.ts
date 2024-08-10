@@ -2,7 +2,6 @@ import { EntityRepository, Repository, getCustomRepository } from 'typeorm';
 import { Menu } from '../entity/menu';
 import { Restaurant } from '../entity/restaurant';
 import { MenuInfo } from '../shared/DataTransferObject';
-import { memoryUsage } from 'process';
 
 @EntityRepository(Menu)
 export class MenuRepository extends Repository<Menu> {
