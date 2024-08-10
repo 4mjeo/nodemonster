@@ -51,7 +51,7 @@ export class RestaurantService {
     }
 
     async checkIsSeller(user: User) {
-        if (user.type !== UserType.seller) {
+        if (user.userType !== UserType.seller) {
             throw new ForbiddenError('Only sellers can create or update restaurants');
         }
     }
