@@ -68,6 +68,7 @@ export class RestaurantInfo extends Restaurant {
 	address: string;
 	phoneNum: string;
 	introduction: string;
+	menu: MenuInfo[];
 }
 
 export class RestaurantUpdateInfo extends Restaurant {
@@ -78,6 +79,12 @@ export class RestaurantUpdateInfo extends Restaurant {
 	address: string;
 	phoneNum: string;
 	introduction: string;
+}
+
+export class MenuInfo {
+	id: number;
+	foodName: string;
+	foodPrice: string;
 }
 
 export const ProvideUserTokenSchema: Joi.ObjectSchema<ProvideUserTokenDto> = Joi.object().keys({
