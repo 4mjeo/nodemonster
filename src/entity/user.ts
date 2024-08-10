@@ -45,10 +45,10 @@ export class User {
         nullable: false,
         name: 'updatedAt',
     })
-    updatedAt: Date
+    updatedAt: Date;
 
     @OneToMany(() => Post, post => post.user, { cascade: true })
-	post: Post[];
+    post: Post[];
 
     @OneToMany(() => Restaurant, restaurant => restaurant.user, { cascade: true })
     restaurant: Restaurant[];

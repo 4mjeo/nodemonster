@@ -33,9 +33,9 @@ export class Restaurant {
     @Column()
     introduction: string;
 
-    @ManyToOne(() => User, user => user.id, { nullable: false, onDelete: 'CASCADE' })
-	@JoinColumn({ name: 'seller' })
-	user: User;
+    @ManyToOne(() => User, user => user.restaurant, { nullable: false, onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'sellerId' })
+    user: User;
 
     @OneToMany(() => Menu, menu => menu.restaurant, { cascade: true })
     menus: Menu[];
