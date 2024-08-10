@@ -1,6 +1,7 @@
 import Joi from 'joi';
 import { Post } from '../entity/post';
 import { Restaurant } from '../entity/restaurant';
+import { UserType } from '../entity/enum/usertype';
 
 export class UserLoginInfo {
 	email: string;
@@ -16,6 +17,7 @@ export class UserInfo {
 	email: string;
 	password: string;
 	nickname: string;
+	type: UserType;
 }
 
 export class UserUpdateInfo {
