@@ -59,7 +59,7 @@ export class RestaurantRepository extends Repository<Restaurant> {
             .addSelect('restaurant.phoneNum')
             .addSelect('restaurant.introduction')
             .innerJoin('restaurant.user', 'user')
-            .innerJoin('restaurant.menu', 'menu')
+            .leftJoin('restaurant.menu', 'menu')
             .getMany();
     }
 
@@ -74,7 +74,8 @@ export class RestaurantRepository extends Repository<Restaurant> {
             .addSelect('restaurant.introduction')
             .addSelect('user.id')
             .addSelect('user.nickname')
-            .innerJoin('restaurant.user', 'user')
+            .leftJoin('restaurant.user', 'user')
+            .leftJoinAndSelect('restaurant.menu', 'menu')
             .where('restaurant.id = :restaurant_id', { restaurant_id: id })
             .getOne();  
     }
@@ -86,10 +87,10 @@ export class RestaurantRepository extends Repository<Restaurant> {
             .addSelect('user.id')
             .addSelect('user.nickname')
             .addSelect('restaurant.introduction')
-            .innerJoin('restaurant.user', 'user')
+            .leftJoin('restaurant.user', 'user')
             .where('restaurant.restaurantName like :searchWord OR restaurant.introduction like :searchWord', {
-                searchWord: `${searchWord}%`,
+                searchWord: `%${searchWord}%`,
             })
             .getMany();
     }
- }  
+}  
