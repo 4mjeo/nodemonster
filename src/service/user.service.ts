@@ -40,14 +40,14 @@ export class UserService {
 		const hashedPassword = generateHash(userInfo.password);
 	
 		const userInfoToCreate = { ...userInfo, password: hashedPassword };
-		const { id, createdAt, updatedAt, type } = await this.userRepository.createUser(userInfoToCreate);
+		const { id, createdAt, updatedAt, userType } = await this.userRepository.createUser(userInfoToCreate);
 	
 		return {
 			id,
 			createdAt,
 			updatedAt,
-			access_token: await this.issuanceToken(userInfo.email, type, 'access'),
-			refresh_token: await this.issuanceToken(userInfo.email, type, 'refresh'),
+			access_token: await this.issuanceToken(userInfo.email, userType, 'access'),
+			refresh_token: await this.issuanceToken(userInfo.email, userType, 'refresh'),
 		};
 	}
 
@@ -64,8 +64,8 @@ export class UserService {
 		}
 
 		return {
-			access_token: await this.issuanceToken(user.email, user.type, 'access'),
-			refresh_token: await this.issuanceToken(user.email, user.type, 'refresh'),
+			access_token: await this.issuanceToken(user.email, user.userType, 'access'),
+			refresh_token: await this.issuanceToken(user.email, user.userType, 'refresh'),
 		};
 	}
 
@@ -105,7 +105,7 @@ export class UserService {
 		if (!user) {
 			throw new NotFoundError('User Not Found');
 		}
-		const accessToken: string = await this.issuanceToken(email, user.type, 'access');
+		const accessToken: string = await this.issuanceToken(email, user.userType, 'access');
 		return {
 			access_token: accessToken,
 			refresh_token: refreshToken,

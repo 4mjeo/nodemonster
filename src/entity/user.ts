@@ -31,7 +31,7 @@ export class User {
         nullable: false,
         default: UserType.customer,
     })
-    type: UserType;
+    userType: UserType;
 
     @CreateDateColumn({
         type: 'timestamp',
