@@ -1,9 +1,8 @@
 import { RestaurantRepository } from '../repository/restaurant.repository';
 import { User } from '../entity/user';
-import { UserType } from '../entity/enum/usertype';
-import { Restaurant } from '../entity/restaurant'
-import { ForbiddenError, NotFoundError } from '../shared/exception';
+import { Restaurant } from '../entity/restaurant';
 import { RestaurantInfo, RestaurantUpdateInfo } from '../shared/DataTransferObject';
+import { Validation } from '../shared/validation';
 
 export class RestaurantService {
     constructor (
@@ -11,7 +10,7 @@ export class RestaurantService {
     ) {}
 
     async createRestaurant(restaurantInfo: RestaurantInfo, user: User): Promise<Restaurant> {
-        await this.checkIsSeller(user);
+        Validation.checkIsSeller(user);
 
         return await this.restaurantRepository.createRestaurant(restaurantInfo, user);
     }
@@ -19,8 +18,8 @@ export class RestaurantService {
     async updateRestaurant(restaurantUpdateInfo: RestaurantUpdateInfo, user: User): Promise<void> {
         const restaurant = await this.restaurantRepository.findOne(restaurantUpdateInfo.id);
 
-        await this.checkRestaurantExist(restaurant);
-        await this.checkIsOwner(restaurant, user);
+        Validation.checkRestaurantExist(restaurant);
+        await Validation.checkIsOwner(restaurant, user);
 
         await this.restaurantRepository.updateRestaurant(restaurantUpdateInfo);
     }
@@ -28,8 +27,8 @@ export class RestaurantService {
     async deleteRestaurant(restaurantId: number, user: User): Promise<void> {
         const restaurant = await this.restaurantRepository.findOne(restaurantId);
 
-        await this.checkRestaurantExist(restaurant);
-        await this.checkIsOwner(restaurant, user);
+        Validation.checkRestaurantExist(restaurant);
+        await Validation.checkIsOwner(restaurant, user);
 
         await this.restaurantRepository.deleteRestaurant(restaurantId);
     }
@@ -41,7 +40,7 @@ export class RestaurantService {
     async getOneRestaurant(id: number): Promise<Restaurant> {
         const restaurant = await this.restaurantRepository.getOneRestaurant(id);
 
-        await this.checkRestaurantExist(restaurant);
+        Validation.checkRestaurantExist(restaurant);
 
         return restaurant;
     }
@@ -49,22 +48,4 @@ export class RestaurantService {
     async searchRestaurant(searchWord: string): Promise<Restaurant[]> {
         return this.restaurantRepository.searchRestaurant(searchWord);
     }
-
-    async checkIsSeller(user: User) {
-        if (user.userType !== UserType.seller) {
-            throw new ForbiddenError('Only sellers can create or update restaurants');
-        }
-    }
-
-    async checkRestaurantExist(restaurant: Restaurant) {
-        if (!restaurant) {
-            throw new NotFoundError('Restaurant not found');
-        }
-    }
-
-    async checkIsOwner(restaurant: Restaurant, user: User) {
-        if (restaurant.user.id !== user.id) {
-            throw new ForbiddenError('You can onliy update your own restaurant');
-        }
-    }
-}   
+}
