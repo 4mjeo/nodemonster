@@ -1,7 +1,6 @@
 import { MenuRepository } from '../repository/menu.repository';
 import { RestaurantService } from './restaurant.service';
 import { Menu } from '../entity/menu';
-import { Restaurant } from '../entity/restaurant';
 import { MenuInfo } from '../shared/DataTransferObject';
 import { User } from '../entity/user';
 import { Validation } from '../shared/validation';
