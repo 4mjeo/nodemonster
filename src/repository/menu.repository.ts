@@ -35,4 +35,14 @@ export class MenuRepository extends Repository<Menu> {
     async getMenuById(menuId: number): Promise<Menu> {
         return this.findOne(menuId);
     }
+
+    async getMenuByRestaurant(restaurantId: number): Promise<Menu[]> {
+        return this.createQueryBuilder('menu')
+            .where('menu.restaurantId = :restaurantId', { restaurantId })
+            .getMany();
+    }
+
+    async deleteMenu(menuId: number): Promise<void> {
+        await this.delete(menuId);
+    }
 }
