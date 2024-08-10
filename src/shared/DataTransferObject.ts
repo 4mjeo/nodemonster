@@ -2,6 +2,7 @@ import Joi from 'joi';
 import { Post } from '../entity/post';
 import { Restaurant } from '../entity/restaurant';
 import { UserType } from '../entity/enum/usertype';
+import { Menu } from '../entity/menu';
 
 export class UserLoginInfo {
 	email: string;
@@ -68,7 +69,7 @@ export class RestaurantInfo extends Restaurant {
 	address: string;
 	phoneNum: string;
 	introduction: string;
-	menu: MenuInfo[];
+	menu: Menu[];
 }
 
 export class RestaurantUpdateInfo extends Restaurant {
