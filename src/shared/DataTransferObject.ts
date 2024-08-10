@@ -83,6 +83,7 @@ export class RestaurantUpdateInfo extends Restaurant {
 
 export class MenuInfo {
 	id: number;
+	restaurantId: number;
 	foodName: string;
 	foodPrice: string;
 }
