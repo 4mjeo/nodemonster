@@ -38,5 +38,5 @@ export class Restaurant {
     user: User;
 
     @OneToMany(() => Menu, menu => menu.restaurant, { cascade: true })
-    menus: Menu[];
+    menu: Menu[];
 }

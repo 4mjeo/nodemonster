@@ -13,7 +13,7 @@ export class Menu {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => Restaurant, restaurant => restaurant.menus, { nullable: false, onDelete: 'CASCADE' })
+    @ManyToOne(() => Restaurant, restaurant => restaurant.menu, { nullable: false, onDelete: 'CASCADE' })
     @JoinColumn({ name: 'restaurantId' })
     restaurant: Restaurant;
 
