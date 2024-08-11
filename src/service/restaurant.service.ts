@@ -16,7 +16,10 @@ export class RestaurantService {
     }
 
     async updateRestaurant(restaurantUpdateInfo: RestaurantUpdateInfo, user: User): Promise<void> {
-        const restaurant = await this.restaurantRepository.findOne(restaurantUpdateInfo.id);
+        const restaurant = await this.restaurantRepository.findOne({
+            where: { id: restaurantUpdateInfo.id },
+            relations: ['user']
+        });
 
         Validation.checkRestaurantExist(restaurant);
         await Validation.checkIsOwner(restaurant, user);
