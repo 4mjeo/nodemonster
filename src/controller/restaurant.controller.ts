@@ -18,21 +18,26 @@ export class RestaurantController {
     }
 
     public updateRestaurant: BusinessLogic = async(req, res, next) => {
-        const restaurantUpdateInfo = req.body as RestaurantUpdateInfo;
+        const restaurantId = Number(req.params.restaurant_id);
+        const restaurantUpdateInfo = {
+            id: restaurantId,
+            ...req.body
+        } as RestaurantUpdateInfo;
+        
         const user = req.decoded;
-
+    
         await this.restaurantService.updateRestaurant(restaurantUpdateInfo, user);
-
-        return res.status(200).json({ message: 'updateRestaurant success' });
+    
+        return res.status(200).json({ message: 'Update restaurant success' });
     }
-
+    
     public deleteRestaurant: BusinessLogic = async(req, res, next) => {
         const restaurantId = Number(req.params.restaurant_id);
         const user = req.decoded;
 
         await this.restaurantService.deleteRestaurant(restaurantId, user);
 
-        return res.status(200).json({ message: 'deleteRestaurant success' });
+        return res.status(200).json({ message: 'Delete restaurant success' });
     };
 
     public getOneRestaurant: BusinessLogic = async(req, res, next) => {
