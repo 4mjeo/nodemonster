@@ -28,8 +28,11 @@ export class RestaurantService {
     }
 
     async deleteRestaurant(restaurantId: number, user: User): Promise<void> {
-        const restaurant = await this.restaurantRepository.findOne(restaurantId);
-
+        const restaurant = await this.restaurantRepository.findOne({
+            where: { id: restaurantId },
+            relations: ['user'],
+        });
+        
         Validation.checkRestaurantExist(restaurant);
         await Validation.checkIsOwner(restaurant, user);
 
