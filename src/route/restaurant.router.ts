@@ -10,10 +10,10 @@ export const restaurantServiceRouter = (app: Router) => {
     app.use('/restaurant', router);
 
     router.get('/', errorHandler(restaurantController.getAllRestaurant));
+    
+    router.get('/search', errorHandler(restaurantController.searchRestaurant)); //path value는 param 밑에 위치 시키기
 
     router.get('/:restaurant_id', errorHandler(restaurantController.getOneRestaurant));
-
-    router.get('/search', errorHandler(restaurantController.searchRestaurant));
 
     router.post('/', verifyTokenMiddleware, errorHandler(restaurantController.createRestaurant));
 
