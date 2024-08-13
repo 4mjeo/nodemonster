@@ -86,7 +86,7 @@ export class MenuInfo {
 	id: number;
 	restaurantId: number;
 	foodName: string;
-	foodPrice: string;
+	foodPrice: number;
 }
 
 export const ProvideUserTokenSchema: Joi.ObjectSchema<ProvideUserTokenDto> = Joi.object().keys({

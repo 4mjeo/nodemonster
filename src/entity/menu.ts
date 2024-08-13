@@ -21,5 +21,5 @@ export class Menu {
     foodName: string;
 
     @Column()
-    foodPrice: string;
+    foodPrice: number;
 }
